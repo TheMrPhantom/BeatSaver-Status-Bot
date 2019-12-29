@@ -17,9 +17,13 @@ def check(update, context):
     print("response")
     html=None
 
-    html=requests.get('http://beatsaver.com/uploader/5e08e3dd30cd920006c143dd').text
+    html=requests.get('https://beatsaver.com/uploader/5e08e3dd30cd920006c143dd').text
     print("response")
     session = dryscrape.Session()
+    print("response")
+    sess.set_header('user-agent', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:50.0) Gecko/20100101 Firefox/50.0')
+    sess.set_attribute('auto_load_images', False)          
+    sess.set_timeout(360)
     print("response")
     session.visit("https://beatsaver.com/uploader/5e08e3dd30cd920006c143dd")
     print("response")
