@@ -52,7 +52,7 @@ def check(update, context):
         html=BeautifulSoup(html)
         songTitles=[]
         songImages=[]
-
+        songInfos=[]
         #Processing titels
         songTitlesRAW=html.findAll('div',{'class':'details'})
         for s in songTitlesRAW:
@@ -75,14 +75,20 @@ def check(update, context):
         #Processing infos
         songInfosRAW=html.findAll('div',{'class':'stats'})
         print(songInfosRAW)
+        counter=0
         for si in songInfosRAW:
+            songInfos.append([])
             inner=si.findAll('li',{'class':'mono'})
-            print(inner)
+            for info in inner:
+                print(info)
+                songInfos[counter].append(info.decode_contents())
+                
+            counter+=1
             #inner=inner['src']
             #inner="https://www.beatsaver.com"+inner
             #songImages.append(inner)
 
-
+        print(songInfos)
 
 
         print(songTitles)
