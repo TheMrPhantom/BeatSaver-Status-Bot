@@ -23,7 +23,7 @@ def check(update, context):
     print("a")
     driver = webdriver.Firefox(options=options)
     print("b")
-    driver.get("http://www.tarlabs.com")
+    driver.get("https://beatsaver.com/uploader/5e08e3dd30cd920006c143dd")
     print("c")
     
     html=driver.page_source
