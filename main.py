@@ -62,7 +62,7 @@ def check(update, context):
         for c in songImagesRAW:
             print("a")
             inner=c.find('image')
-            print("b")
+            print(inner)
             inner=inner['src']
             print("c")
             inner="https://www.beatsaver.com"+inner
