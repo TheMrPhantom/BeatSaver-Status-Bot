@@ -76,7 +76,7 @@ def check(update, context):
         songInfosRAW=html.findAll('div',{'class':'stats'})
         print(songInfosRAW)
         for si in songInfosRAW:
-            inner=si.findAll('div',{'class':'mono'})
+            inner=si.findAll('li',{'class':'mono'})
             print(inner)
             #inner=inner['src']
             #inner="https://www.beatsaver.com"+inner
