@@ -45,14 +45,28 @@ def check(update, context):
 
         
         html=BeautifulSoup(html)
-    
-        songTitles=html.findAll('div',{'class':'details'})
-        for s in songTitles:
+        songTitles=[]
+        songImages=[]
+
+        #Processing titels
+        songTitlesRAW=html.findAll('div',{'class':'details'})
+        for s in songTitlesRAW:
             inner=s.find('h1',{'class':'has-text-weight-light'})
-            print(inner)
-            iinner=inner.find('a').decode_contents()
-            print(iinner)
-            #print(s.find('h1',{'class':'has-text-weight-light'}).select("a").text)
+            inner=inner.find('a').decode_contents()
+            songTitles.append(inner)
+
+        #Processing images
+        songImagesRAW=html.findAll('div',{'class':'cover'})
+        for c in songImagesRAW:
+            inner=s.find('image')
+            inner=inner['src']
+            inner="https://www.beatsaver.com"+inner
+            songImages.append(inner)
+            bot.sendPhoto(uID,inner)
+
+
+
+
 
 
         print(songTitles)
