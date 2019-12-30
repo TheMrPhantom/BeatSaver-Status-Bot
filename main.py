@@ -48,7 +48,7 @@ def check(update, context):
     
         songTitles=html.findAll('div',{'class':'details'})
         for s in songTitles:
-            print(s.findAll('h1',{'class':'has-text-weight-light'}))
+            print(s.find('h1',{'class':'has-text-weight-light'}).select("a").text)
 
 
         print(songTitle)
