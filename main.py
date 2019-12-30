@@ -61,7 +61,7 @@ def check(update, context):
         songImagesRAW=html.findAll('div',{'class':'cover'})
         for c in songImagesRAW:
             print("a")
-            inner=c.find('image')
+            inner=c.find('img')
             print(inner)
             inner=inner['src']
             print("c")
