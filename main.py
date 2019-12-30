@@ -55,11 +55,16 @@ def check(update, context):
             inner=inner.find('a').decode_contents()
             songTitles.append(inner)
 
+        print("Done Titles")
+
         #Processing images
         songImagesRAW=html.findAll('div',{'class':'cover'})
         for c in songImagesRAW:
+            print("a")
             inner=c.find('image')
+            print("b")
             inner=inner['src']
+            print("c")
             inner="https://www.beatsaver.com"+inner
             songImages.append(inner)
             bot.sendPhoto(uID,inner)
