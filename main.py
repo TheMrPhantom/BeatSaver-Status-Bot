@@ -7,6 +7,7 @@ from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import time
 
 
 def start(update, context):
@@ -40,6 +41,10 @@ def check(update, context):
             WebDriverWait(driver, timeout).until(element_present)
         except TimeoutException:
             print ("Timed out waiting for page to load")
+
+        print("Wait for images")
+        time.sleep(3)
+        print("Done Waiting")
 
         html=driver.page_source
 
