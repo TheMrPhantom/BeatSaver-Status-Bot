@@ -33,8 +33,7 @@ def check(update, context):
 
         driver = webdriver.Firefox(options=options)
 
-        driver.get("https://beatsaver.com/uploader/5e08e3dd30cd920006c143dd")
-        #driver.get(url)
+        driver.get(url)
         
         try:
             element_present = EC.presence_of_element_located((By.CLASS_NAME, 'outer'))
@@ -76,16 +75,17 @@ def check(update, context):
 
         #Processing infos
         songInfosRAW=html.findAll('div',{'class':'stats'})
-        print(songInfosRAW)
+        
         counter=0
         for si in songInfosRAW:
             songInfos.append([])
             inner=si.findAll('li',{'class':'mono'})
             for info in inner:
-                print(info)
                 songInfos[counter].append(info.decode_contents())
                 
             counter+=1
+
+        print("Done Infos")
 
         songCount=len(songTitles)
 
