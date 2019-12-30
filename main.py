@@ -3,6 +3,11 @@ from bs4 import BeautifulSoup
 
 from selenium import webdriver
 from selenium.webdriver.firefox.options import Options
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
+
 
 def start(update, context):
     context.bot.sendMessage(bot.chatID(update),"Register your Beatsaver page with /register <url>")
@@ -19,6 +24,7 @@ def check(update, context):
 
     if bot.user(uID) is not None:
         url=bot.user(uID)
+        timeout = 5
         options = Options()
         options.headless = True
 
@@ -29,6 +35,12 @@ def check(update, context):
         driver.get("https://beatsaver.com/uploader/5e08e3dd30cd920006c143dd")
         #driver.get(url)
         
+        try:
+            element_present = EC.presence_of_element_located((By.CLASS_NAME, 'outer'))
+            WebDriverWait(driver, timeout).until(element_present)
+        except TimeoutException:
+            print ("Timed out waiting for page to load")
+
         html=driver.page_source
 
         
