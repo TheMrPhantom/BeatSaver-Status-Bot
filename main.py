@@ -50,9 +50,11 @@ def check(update, context):
 
         
         html=BeautifulSoup(html)
+
         songTitles=[]
         songImages=[]
         songInfos=[]
+
         #Processing titels
         songTitlesRAW=html.findAll('div',{'class':'details'})
         for s in songTitlesRAW:
@@ -84,14 +86,16 @@ def check(update, context):
                 songInfos[counter].append(info.decode_contents())
                 
             counter+=1
-            #inner=inner['src']
-            #inner="https://www.beatsaver.com"+inner
-            #songImages.append(inner)
 
-        print(songInfos)
+        songCount=len(songTitles)
 
+        for i in range(0,songCount):
+            infos=songInfos[i]
+            caption="**"+songTitles[i]+"**\n"
+            for info in infos:
+                caption+=info+"\n"
+            bot.sendPhoto(uID,songImages[i],captionText=caption)
 
-        print(songTitles)
     else:
         context.bot.sendMessage(bot.chatID(update),"Website registred yet")
 
