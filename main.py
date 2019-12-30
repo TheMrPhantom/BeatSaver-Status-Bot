@@ -43,7 +43,7 @@ def check(update, context):
             print ("Timed out waiting for page to load")
 
         print("Wait for images")
-        time.sleep(3)
+        time.sleep(8)
         print("Done Waiting")
 
         html=driver.page_source
@@ -65,16 +65,21 @@ def check(update, context):
         #Processing images
         songImagesRAW=html.findAll('div',{'class':'cover'})
         for c in songImagesRAW:
-            print("a")
             inner=c.find('img')
-            print(inner)
             inner=inner['src']
-            print("c")
             inner="https://www.beatsaver.com"+inner
             songImages.append(inner)
-            bot.sendPhoto(uID,inner)
 
+        print("Done Images")
 
+        #Processing infos
+        songInfosRAW=html.findAll('div',{'class':'stats'})
+        for s in songInfosRAW:
+            inner=s.findAll('div',{'class':'mono'})
+            print(inner)
+            #inner=inner['src']
+            #inner="https://www.beatsaver.com"+inner
+            #songImages.append(inner)
 
 
 
