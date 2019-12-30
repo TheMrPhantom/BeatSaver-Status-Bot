@@ -91,7 +91,7 @@ def check(update, context):
 
         for i in range(0,songCount):
             infos=songInfos[i]
-            caption="**"+songTitles[i]+"**\n"
+            caption="*"+songTitles[i]+"*\n"
             for info in infos:
                 caption+=info+"\n"
             bot.sendPhoto(uID,songImages[i],captionText=caption)
