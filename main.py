@@ -46,8 +46,11 @@ def check(update, context):
         
         html=BeautifulSoup(html)
     
-        songTitle=html.findAll('div',{'class':'details'})
-    
+        songTitles=html.findAll('div',{'class':'details'})
+        for s in songTitles:
+            print(s.findAll('h1',{'class':'has-text-weight-light'}))
+
+
         print(songTitle)
     else:
         context.bot.sendMessage(bot.chatID(update),"Website registred yet")
