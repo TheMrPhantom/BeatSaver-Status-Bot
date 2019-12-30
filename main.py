@@ -34,7 +34,7 @@ def check(update, context):
         
         html=BeautifulSoup(html)
     
-        songTitle=html.find('h1',{'class':'has-text-weight-light'})
+        songTitle=html.find('div',{'class':'outer'})
     
         print(songTitle)
     else:
