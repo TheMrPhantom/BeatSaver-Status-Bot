@@ -58,7 +58,7 @@ def check(update, context):
         #Processing images
         songImagesRAW=html.findAll('div',{'class':'cover'})
         for c in songImagesRAW:
-            inner=s.find('image')
+            inner=c.find('image')
             inner=inner['src']
             inner="https://www.beatsaver.com"+inner
             songImages.append(inner)
