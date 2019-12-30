@@ -50,7 +50,7 @@ def check(update, context):
         for s in songTitles:
             inner=s.find('h1',{'class':'has-text-weight-light'})
             print(inner)
-            iinner=inner.select("a").text
+            iinner=inner.find('a').decode_contents()
             print(iinner)
             #print(s.find('h1',{'class':'has-text-weight-light'}).select("a").text)
 
