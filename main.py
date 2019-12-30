@@ -74,6 +74,7 @@ def check(update, context):
 
         #Processing infos
         songInfosRAW=html.findAll('div',{'class':'stats'})
+        print(songInfosRAW)
         for si in songInfosRAW:
             inner=si.findAll('div',{'class':'mono'})
             print(inner)
