@@ -14,26 +14,29 @@ def register(update, context):
 
 def check(update, context):
     uID=bot.chatID(update)
-    url=bot.user(uID)
+    
     html=None
 
-    options = Options()
-    options.headless = True
-
-    print("a")
-    driver = webdriver.Firefox(options=options)
-    print("b")
-    driver.get("https://beatsaver.com/uploader/5e08e3dd30cd920006c143dd")
-    print("c")
-    
-    html=driver.page_source
-
-    print(html)
-    html=BeautifulSoup(html)
-    print(html)
-
     if bot.user(uID) is not None:
-        print("hu")
+        url=bot.user(uID)
+        options = Options()
+        options.headless = True
+
+        context.bot.sendMessage(bot.chatID(update),"Starting request on beatsaver.com, please wait...")
+
+        driver = webdriver.Firefox(options=options)
+
+        driver.get("https://beatsaver.com/uploader/5e08e3dd30cd920006c143dd")
+        #driver.get(url)
+        
+        html=driver.page_source
+
+        
+        html=BeautifulSoup(html)
+    
+        songTitle=html.find('h1',{'class':'has-text-weight-light'})
+    
+        print(songTitle)
     else:
         context.bot.sendMessage(bot.chatID(update),"Website registred yet")
 
