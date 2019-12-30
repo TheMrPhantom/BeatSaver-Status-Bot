@@ -47,6 +47,8 @@ def check(update, context):
 
         html=driver.page_source
 
+        driver.close()
+        driver.quit()
         
         html=BeautifulSoup(html)
 
