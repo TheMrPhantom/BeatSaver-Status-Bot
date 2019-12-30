@@ -48,10 +48,14 @@ def check(update, context):
     
         songTitles=html.findAll('div',{'class':'details'})
         for s in songTitles:
-            print(s.find('h1',{'class':'has-text-weight-light'}).select("a").text)
+            inner=s.find('h1',{'class':'has-text-weight-light'})
+            print(inner)
+            iinner=inner.select("a").text
+            print(iinner)
+            #print(s.find('h1',{'class':'has-text-weight-light'}).select("a").text)
 
 
-        print(songTitle)
+        print(songTitles)
     else:
         context.bot.sendMessage(bot.chatID(update),"Website registred yet")
 
