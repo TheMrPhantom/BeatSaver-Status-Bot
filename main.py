@@ -20,7 +20,7 @@ def register(update, context):
     context.bot.sendMessage(bot.chatID(update), "Website registred")
 
 def searchURL(bot, chatID, searchURL, sendMessage="Starting request on beatsaver.com, please wait...",maxResults=10):
-    timeout = 5
+    timeout = 15
     options = Options()
     options.headless = True
 
