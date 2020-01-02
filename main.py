@@ -11,97 +11,105 @@ import time
 
 
 def start(update, context):
-    context.bot.sendMessage(bot.chatID(update),"Register your Beatsaver page with /register <url>")
+    context.bot.sendMessage(bot.chatID(update), "Register your Beatsaver page with /register <url>")
+
 
 def register(update, context):
-    websiteURL=update.message.text.split()[1]
-    bot.modifyUser(bot.chatID(update),websiteURL)
-    context.bot.sendMessage(bot.chatID(update),"Website registred")
+    websiteURL = update.message.text.split()[1]
+    bot.modifyUser(bot.chatID(update), websiteURL)
+    context.bot.sendMessage(bot.chatID(update), "Website registred")
+
+def searchURL(bot, chatID, searchURL, maxResults=10):
+    timeout = 5
+    options = Options()
+    options.headless = True
+
+    bot.sendMessage(
+        chatID, "Starting request on beatsaver.com, please wait...")
+
+    driver = webdriver.Firefox(options=options)
+
+    driver.get(searchURL)
+
+    try:
+        element_present = EC.presence_of_element_located(
+            (By.CLASS_NAME, 'outer'))
+        WebDriverWait(driver, timeout).until(element_present)
+    except TimeoutException:
+        print("Timed out waiting for page to load")
+
+    print("Wait for images")
+    time.sleep(8+maxResults)
+    print("Done Waiting")
+
+    html = driver.page_source
+
+    driver.close()
+    driver.quit()
+
+    html = BeautifulSoup(html)
+
+    songTitles = []
+    songImages = []
+    songInfos = []
+
+    # Processing titels
+    songTitlesRAW = html.findAll('div', {'class': 'details'})
+    for s in songTitlesRAW:
+        inner = s.find('h1', {'class': 'has-text-weight-light'})
+        inner = inner.find('a').decode_contents()
+        songTitles.append(inner)
+
+    print("Done Titles")
+
+    # Processing images
+    songImagesRAW = html.findAll('div', {'class': 'cover'})
+    for c in songImagesRAW:
+        inner = c.find('img')
+        inner = inner['src']
+        inner = "https://www.beatsaver.com"+inner
+        songImages.append(inner)
+
+    print("Done Images")
+
+    # Processing infos
+    songInfosRAW = html.findAll('div', {'class': 'stats'})
+
+    counter = 0
+    for si in songInfosRAW:
+        songInfos.append([])
+        inner = si.findAll('li', {'class': 'mono'})
+        for info in inner:
+            songInfos[counter].append(info.decode_contents())
+
+        counter += 1
+
+    print("Done Infos")
+
+    songCount = len(songTitles)
+
+    for i in range(0, songCount):
+        infos = songInfos[i]
+        caption = "*"+songTitles[i]+"*\n"
+        for info in infos:
+            caption += info+"\n"
+        bot.sendPhoto(chatID, songImages[i], captionText=caption)
+
+
+def search(update, context):
+    searchURL(context.bot,bot.chatID(update),"https://beatsaver.com/search?q="+str(update.message.text.split()[1]),5)
 
 def check(update, context):
-    uID=bot.chatID(update)
-    
-    html=None
+    uID = bot.chatID(update)
 
     if bot.user(uID) is not None:
-        url=bot.user(uID)
-        timeout = 5
-        options = Options()
-        options.headless = True
-
-        context.bot.sendMessage(bot.chatID(update),"Starting request on beatsaver.com, please wait...")
-
-        driver = webdriver.Firefox(options=options)
-
-        driver.get(url)
-        
-        try:
-            element_present = EC.presence_of_element_located((By.CLASS_NAME, 'outer'))
-            WebDriverWait(driver, timeout).until(element_present)
-        except TimeoutException:
-            print ("Timed out waiting for page to load")
-
-        print("Wait for images")
-        time.sleep(8)
-        print("Done Waiting")
-
-        html=driver.page_source
-
-        driver.close()
-        driver.quit()
-        
-        html=BeautifulSoup(html)
-
-        songTitles=[]
-        songImages=[]
-        songInfos=[]
-
-        #Processing titels
-        songTitlesRAW=html.findAll('div',{'class':'details'})
-        for s in songTitlesRAW:
-            inner=s.find('h1',{'class':'has-text-weight-light'})
-            inner=inner.find('a').decode_contents()
-            songTitles.append(inner)
-
-        print("Done Titles")
-
-        #Processing images
-        songImagesRAW=html.findAll('div',{'class':'cover'})
-        for c in songImagesRAW:
-            inner=c.find('img')
-            inner=inner['src']
-            inner="https://www.beatsaver.com"+inner
-            songImages.append(inner)
-
-        print("Done Images")
-
-        #Processing infos
-        songInfosRAW=html.findAll('div',{'class':'stats'})
-        
-        counter=0
-        for si in songInfosRAW:
-            songInfos.append([])
-            inner=si.findAll('li',{'class':'mono'})
-            for info in inner:
-                songInfos[counter].append(info.decode_contents())
-                
-            counter+=1
-
-        print("Done Infos")
-
-        songCount=len(songTitles)
-
-        for i in range(0,songCount):
-            infos=songInfos[i]
-            caption="*"+songTitles[i]+"*\n"
-            for info in infos:
-                caption+=info+"\n"
-            bot.sendPhoto(uID,songImages[i],captionText=caption)
-
+        url = bot.user(uID)
+        searchURL(context.bot, uID, url)
     else:
-        context.bot.sendMessage(bot.chatID(update),"Website registred yet")
+        context.bot.sendMessage(bot.chatID(update), "Website registred yet")
 
 bot.addBotCommand("start", start)
 bot.addBotCommand("register", register)
 bot.addBotCommand("check", check)
+bot.addBotCommand("search", check)
 bot.startBot()
