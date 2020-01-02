@@ -37,6 +37,7 @@ def searchURL(bot, chatID, searchURL, sendMessage="Starting request on beatsaver
         WebDriverWait(driver, timeout).until(element_present)
     except TimeoutException:
         print("Timed out waiting for page to load")
+        bot.sendMessage(chatID, "Timed out waiting for page to load")
 
     print("Wait for images")
     time.sleep(8+maxResults)
