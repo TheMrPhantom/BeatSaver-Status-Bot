@@ -19,16 +19,16 @@ def register(update, context):
     bot.modifyUser(bot.chatID(update), websiteURL)
     context.bot.sendMessage(bot.chatID(update), "Website registred")
 
-def searchURL(bot, chatID, searchURL, maxResults=10):
+def searchURL(bot, chatID, searchURL, sendMessage="Starting request on beatsaver.com, please wait...",maxResults=10):
     timeout = 5
     options = Options()
     options.headless = True
 
     bot.sendMessage(
-        chatID, "Starting request on beatsaver.com, please wait...")
+        chatID, sendMessage)
 
     driver = webdriver.Firefox(options=options)
-
+    print(searchURL)
     driver.get(searchURL)
 
     try:
