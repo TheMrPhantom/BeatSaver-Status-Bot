@@ -56,7 +56,11 @@ def searchURL(bot, chatID, searchURL, sendMessage="Starting request on beatsaver
 
     # Processing titels
     songTitlesRAW = html.findAll('div', {'class': 'details'})
+    maxCounter=0
     for s in songTitlesRAW:
+        maxCounter+=1
+        if maxCounter>=maxResults:
+            break
         inner = s.find('h1', {'class': 'has-text-weight-light'})
         inner = inner.find('a').decode_contents()
         songTitles.append(inner)
@@ -65,7 +69,11 @@ def searchURL(bot, chatID, searchURL, sendMessage="Starting request on beatsaver
 
     # Processing images
     songImagesRAW = html.findAll('div', {'class': 'cover'})
+    maxCounter=0
     for c in songImagesRAW:
+        maxCounter+=1
+        if maxCounter>=maxResults:
+            break
         inner = c.find('img')
         inner = inner['src']
         inner = "https://www.beatsaver.com"+inner
@@ -77,7 +85,11 @@ def searchURL(bot, chatID, searchURL, sendMessage="Starting request on beatsaver
     songInfosRAW = html.findAll('div', {'class': 'stats'})
 
     counter = 0
+    maxCounter=0
     for si in songInfosRAW:
+        maxCounter+=1
+        if maxCounter>=maxResults:
+            break
         songInfos.append([])
         inner = si.findAll('li', {'class': 'mono'})
         for info in inner:
@@ -88,8 +100,11 @@ def searchURL(bot, chatID, searchURL, sendMessage="Starting request on beatsaver
     print("Done Infos")
 
     songCount = len(songTitles)
-
+    maxCounter=0
     for i in range(0, songCount):
+        maxCounter+=1
+        if maxCounter>=maxResults:
+            break
         infos = songInfos[i]
         caption = "*"+songTitles[i]+"*\n"
         for info in infos:
