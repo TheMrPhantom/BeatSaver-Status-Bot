@@ -98,7 +98,8 @@ def searchURL(bot, chatID, searchURL, sendMessage="Starting request on beatsaver
 
 
 def search(update, context):
-    searchURL(context.bot,bot.chatID(update),"https://beatsaver.com/search?q="+str(update.message.text.split()[1]),5)
+    searchKey=str(update.message.text.split()[1])
+    searchURL(context.bot,bot.chatID(update),"https://beatsaver.com/search?q="+searchKey,maxResults=5,sendMessage=("Searching for '"+searchKey+"'"),)
 
 def check(update, context):
     uID = bot.chatID(update)
