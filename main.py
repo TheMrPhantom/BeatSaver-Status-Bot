@@ -113,5 +113,5 @@ def check(update, context):
 bot.addBotCommand("start", start)
 bot.addBotCommand("register", register)
 bot.addBotCommand("check", check)
-bot.addBotCommand("search", check)
+bot.addBotCommand("search", search)
 bot.startBot()
